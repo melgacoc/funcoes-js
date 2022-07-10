@@ -29,5 +29,4 @@ describe('Testes da função getOpeningHours', () => {
   it('4testa se envia mensagem quando o dia ou hora for abreviado', () => {
     expect(() => getOpeningHours('Sunday', '09:c0-AM')).toThrow('The minutes should represent a number');
   });
- 
 });
