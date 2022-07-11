@@ -6,7 +6,7 @@ function getOldestFromFirstSpecies(id) {
   const employee = employees.find((element) => element.id === id).responsibleFor[0];
   const animal = species.find((element) => element.id === employee).residents;
   const age = animal.sort((a, b) => b.age - a.age)[0];
-  return [age.name , age.sex, age.age];
+  return [age.name, age.sex, age.age];
 }
 
 module.exports = getOldestFromFirstSpecies;
