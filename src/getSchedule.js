@@ -4,49 +4,49 @@ const { species, hours } = require('../data/zoo_data');
 function getScheduleDay(day) {
   const { open, close } = hours[day];
 
-  const exhibition = [];
+  const posiblesDays = [];
 
   species.forEach((specie) => {
     const isExhibit = specie.availability.find((weekDay) => weekDay === day);
 
     if (isExhibit) {
-      exhibition.push(specie.name);
+      posiblesDays.push(specie.name);
     }
   });
 
   return {
     [day]: {
       officeHour: open === 0 ? 'CLOSED' : `Open from ${open}am until ${close}pm`,
-      exhibition: open === 0 ? 'The zoo will be closed!' : exhibition,
+      exhibition: open === 0 ? 'The zoo will be closed!' : posiblesDays,
     },
   };
 }
 
 function getCompleteSchedule() {
-  const completeSchedule = {};
+  const schedule = {};
 
   Object.entries(hours).forEach(([day, dayHours]) => {
-    const exhibition = [];
+    const possibleSchedule = [];
     const { open, close } = dayHours;
 
     species.forEach((specie) => {
       const isExhibit = specie.availability.find((weekDay) => weekDay === day);
-      if (isExhibit) exhibition.push(specie.name);
+      if (isExhibit) possibleSchedule.push(specie.name);
     });
 
-    completeSchedule[day] = {
+    schedule[day] = {
       officeHour: open === 0 ? 'CLOSED' : `Open from ${open}am until ${close}pm`,
-      exhibition: open === 0 ? 'The zoo will be closed!' : exhibition,
+      exhibition: open === 0 ? 'The zoo will be closed!' : possibleSchedule,
     };
   });
 
-  return completeSchedule;
+  return schedule;
 }
 
 function getSchedule(scheduleTarget) {
-  const isWeekDay = Object.keys(hours).includes(scheduleTarget);
+  const day = Object.keys(hours).includes(scheduleTarget);
   const animal = species.find((specie) => specie.name === scheduleTarget);
-  if (isWeekDay) return getScheduleDay(scheduleTarget);
+  if (day) return getScheduleDay(scheduleTarget);
   if (animal) return animal.availability;
   return getCompleteSchedule();
 }
